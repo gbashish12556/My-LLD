@@ -5,7 +5,9 @@ import org.example.exception.NoSlotFoundExecption;
 import org.example.exception.ParkingLotIsFullException;
 import org.example.model.Car;
 import org.example.model.Slot;
+import org.example.model.Ticket;
 import org.example.strategy.SlotPickingStrategy;
+import org.example.strategy.TicketIdGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,13 @@ public class ParkingLotStorage implements Storage{
      private ArrayList<Slot> slots = new ArrayList<>();
      private SlotPickingStrategy slotPickingStrategy;
 
-     public ParkingLotStorage(int size, SlotPickingStrategy slotPickingStrategy){
+     private TicketIdGenerator ticketIdGenerator;
+
+     public ParkingLotStorage(int size, SlotPickingStrategy slotPickingStrategy, TicketIdGenerator ticketIdGenerator){
 
          this.size = size;
          this.slotPickingStrategy = slotPickingStrategy;
+         this.ticketIdGenerator = ticketIdGenerator;
 
          intialiseParkingLot();
      }
@@ -89,11 +94,12 @@ public class ParkingLotStorage implements Storage{
     }
 
     @Override
-    public Slot addCar(Car car) throws ParkingLotIsFullException{
+    public Ticket addCar(Car car) throws ParkingLotIsFullException{
 
             Slot slot = slotPickingStrategy.getSlot(slots);
             slot.parkACar(car);
-            return slot;
+            Ticket ticket = new Ticket(ticketIdGenerator.getTicketNo(), car, slot);
+            return ticket;
 
     }
 

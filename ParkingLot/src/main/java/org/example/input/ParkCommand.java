@@ -4,6 +4,7 @@ import org.example.exception.InvalidCommandException;
 import org.example.exception.ParkingLotIsFullException;
 import org.example.model.Car;
 import org.example.model.Slot;
+import org.example.model.Ticket;
 import org.example.output.OutputPrinter;
 import org.example.storage.Storage;
 
@@ -24,8 +25,8 @@ public class ParkCommand extends Command{
         Car car = new Car(params[0], params[1]);
         try {
 
-            Slot slot = getStorage().addCar(car);
-            OutputPrinter.carParked(slot);
+            Ticket ticket = getStorage().addCar(car);
+            OutputPrinter.carParked(ticket);
 
         } catch (ParkingLotIsFullException e) {
 

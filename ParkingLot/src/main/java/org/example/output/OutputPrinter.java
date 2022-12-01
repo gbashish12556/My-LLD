@@ -1,6 +1,7 @@
 package org.example.output;
 
 import org.example.model.Slot;
+import org.example.model.Ticket;
 
 public class OutputPrinter {
 
@@ -21,8 +22,8 @@ public class OutputPrinter {
         System.out.println("Car removed from slot "+String.valueOf(slotNo));
     }
 
-    public static void carParked(Slot slot){
-        System.out.println("Car "+String.valueOf(slot.getParkedCar().getRegistrationNo())+"parked in slot "+String.valueOf(slot.getSlotNo()));
+    public static void carParked(Ticket ticket){
+        System.out.println("TicketNo : "+ticket.getId()+", Car "+String.valueOf(ticket.getCar().getRegistrationNo())+"parked in slot "+String.valueOf(ticket.getSlot().getSlotNo()));
     }
 
 
