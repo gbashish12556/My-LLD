@@ -1,4 +1,4 @@
-package org.example.input;
+package org.example.model;
 
 import org.example.model.Car;
 import org.example.model.Slot;

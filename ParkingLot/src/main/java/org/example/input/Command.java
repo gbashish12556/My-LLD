@@ -1,12 +1,9 @@
 package org.example.input;
 
 import org.example.exception.InvalidCommandException;
-import org.example.storage.ParkingLot;
 import org.example.storage.Storage;
 
-import java.util.List;
-
-abstract class Command {
+public abstract class Command {
 
     Command(Storage storage){
        this.storage = storage;
@@ -17,7 +14,7 @@ abstract class Command {
     }
 
     private Storage storage;
-    abstract void execute(String command) throws InvalidCommandException;
-    abstract String getIdentifier();
+    public abstract void execute(String command) throws InvalidCommandException;
+    public abstract String getIdentifier();
 
 }

@@ -10,13 +10,13 @@ import org.example.strategy.SlotPickingStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkingLot implements Storage{
+public class ParkingLotStorage implements Storage{
 
      private int size;
      private ArrayList<Slot> slots = new ArrayList<>();
      private SlotPickingStrategy slotPickingStrategy;
 
-     ParkingLot(int size, SlotPickingStrategy slotPickingStrategy){
+     public ParkingLotStorage(int size, SlotPickingStrategy slotPickingStrategy){
 
          this.size = size;
          this.slotPickingStrategy = slotPickingStrategy;
@@ -89,22 +89,27 @@ public class ParkingLot implements Storage{
     }
 
     @Override
-    public void addCar(Car car){
-
-        try {
+    public Slot addCar(Car car) throws ParkingLotIsFullException{
 
             Slot slot = slotPickingStrategy.getSlot(slots);
             slot.parkACar(car);
+            return slot;
 
-        } catch (ParkingLotIsFullException e) {
-
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
     public void removeCar(Slot slot) throws NoCarFoundException{
             slot.vacateCar();
+    }
+
+    @Override
+    public void removeCar(int slotNo) throws NoCarFoundException {
+        for(int i=1; i<=size; i++) {
+            Slot slot = slots.get(i);
+            if(slot.getSlotNo() == slotNo){
+                slot.vacateCar();
+            }
+        }
     }
 
     @Override

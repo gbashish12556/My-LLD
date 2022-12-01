@@ -2,20 +2,18 @@ package org.example.strategy;
 
 import org.example.exception.ParkingLotIsFullException;
 import org.example.model.Slot;
-import org.example.storage.ParkingLot;
 
 import java.util.List;
 
-public class NearSlotPicking implements SlotPickingStrategy {
+public class NearSlotPickingStrategy implements SlotPickingStrategy {
 
-    private ParkingLot parkingLot;
-    NearSlotPicking(ParkingLot parkingLot){
-        this.parkingLot = parkingLot;
+
+    public NearSlotPickingStrategy(){
     }
 
     @Override
     public Slot getSlot(List<Slot> slots) throws ParkingLotIsFullException {
-        int size = parkingLot.getSize();
+        int size = slots.size();
         for(int i=0; i<size; i++){
             if(slots.get(i).isEmpty()){
                 return slots.get(i);

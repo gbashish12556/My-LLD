@@ -4,6 +4,10 @@ import org.example.exception.NoCarFoundException;
 
 public class Slot {
 
+    public int getSlotNo() {
+        return slotNo;
+    }
+
     private int slotNo;
 
     public Car getParkedCar() {
@@ -28,7 +32,7 @@ public class Slot {
     }
 
     public void vacateCar() throws NoCarFoundException{
-        if(this.isEmpty) {
+        if(!this.isEmpty) {
             this.parkedCar = null;
             this.isEmpty = true;
         }else{

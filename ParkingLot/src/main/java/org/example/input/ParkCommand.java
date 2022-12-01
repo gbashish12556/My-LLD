@@ -1,18 +1,20 @@
 package org.example.input;
 
 import org.example.exception.InvalidCommandException;
+import org.example.exception.ParkingLotIsFullException;
 import org.example.model.Car;
-import org.example.storage.ParkingLot;
+import org.example.model.Slot;
+import org.example.output.OutputPrinter;
 import org.example.storage.Storage;
 
 public class ParkCommand extends Command{
 
-    ParkCommand(Storage storage){
+    public ParkCommand(Storage storage){
         super(storage);
     }
 
     @Override
-    void execute(String command) throws InvalidCommandException {
+    public void execute(String command) throws InvalidCommandException {
         String[] params = command.split(" ");
 
         if(params.length != 3){
@@ -20,12 +22,20 @@ public class ParkCommand extends Command{
         }
 
         Car car = new Car(params[0], params[1]);
-        getStorage().addCar(car);
+        try {
+
+            Slot slot = getStorage().addCar(car);
+            OutputPrinter.carParked(slot);
+
+        } catch (ParkingLotIsFullException e) {
+
+            OutputPrinter.parkingLotFull();
+        }
 
     }
 
     @Override
-    String getIdentifier() {
+    public String getIdentifier() {
         return "park";
     }
 }

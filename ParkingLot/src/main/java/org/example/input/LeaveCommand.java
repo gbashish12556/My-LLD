@@ -1,21 +1,41 @@
 package org.example.input;
 
 import org.example.exception.InvalidCommandException;
+import org.example.exception.NoCarFoundException;
+import org.example.model.Car;
+import org.example.output.OutputPrinter;
 import org.example.storage.Storage;
 
 public class LeaveCommand extends Command{
 
-    LeaveCommand(Storage storage) {
+    public LeaveCommand(Storage storage) {
         super(storage);
     }
 
     @Override
-    void execute(String command) throws InvalidCommandException {
+    public void execute(String command) throws InvalidCommandException {
+
+        String[] params = command.split(" ");
+
+        if(params.length != 2){
+            OutputPrinter.noCarFound();
+        }
+
+        try {
+
+            Integer slot = Integer.parseInt(params[1]);
+            getStorage().removeCar(slot);
+
+            OutputPrinter.carRemovedFromSlot(slot);
+
+        } catch (Exception e) {
+            OutputPrinter.noCarFound();
+        }
 
     }
 
     @Override
-    String getIdentifier() {
-        return null;
+    public String getIdentifier() {
+        return "leave";
     }
 }
