@@ -13,12 +13,16 @@ public class NearSlotPickingStrategy implements SlotPickingStrategy {
 
     @Override
     public Slot getSlot(List<Slot> slots) throws ParkingLotIsFullException {
+
         int size = slots.size();
+
         for(int i=0; i<size; i++){
             if(slots.get(i).isEmpty()){
                 return slots.get(i);
             }
         }
+
         throw new ParkingLotIsFullException();
+
     }
 }

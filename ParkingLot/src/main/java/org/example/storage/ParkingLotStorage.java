@@ -39,11 +39,11 @@ public class ParkingLotStorage implements Storage{
     @Override
     public List<Car> getCarsWithColors(String color) throws NoCarFoundException {
         List<Car> carsList = new ArrayList<>();
-        for(int i=1; i<=size; i++){
+        for(int i=0; i<size; i++){
             Slot slot = slots.get(i);
             if(!slot.isEmpty()){
                 Car car = slot.getParkedCar();
-                if(car.getColor() == color){
+                if(car.getColor().equals(color)){
                     carsList.add(car);
                 }
             }
@@ -59,11 +59,11 @@ public class ParkingLotStorage implements Storage{
     @Override
     public Slot getSlot(String regNo) throws NoSlotFoundExecption {
 
-        for(int i=1; i<=size; i++){
+        for(int i=0; i<size; i++){
             Slot slot = slots.get(i);
             if(!slot.isEmpty()){
                 Car car = slot.getParkedCar();
-                if(car.getRegistrationNo() == regNo){
+                if(car.getRegistrationNo().equals(regNo)){
                    return slot;
                 }
             }
@@ -76,11 +76,11 @@ public class ParkingLotStorage implements Storage{
     public List<Slot> getSlots(String color) throws NoSlotFoundExecption {
 
         List<Slot> newSlots = new ArrayList<>();
-        for(int i=1; i<=size; i++){
+        for(int i=0; i<size; i++){
             Slot slot = slots.get(i);
             if(!slot.isEmpty()){
                 Car car = slot.getParkedCar();
-                if(car.getColor() == color){
+                if(car.getColor().equals(color)){
                     newSlots.add(slot);
                 }
             }
@@ -110,10 +110,13 @@ public class ParkingLotStorage implements Storage{
 
     @Override
     public void removeCar(int slotNo) throws NoCarFoundException {
-        for(int i=1; i<=size; i++) {
+        for(int i=1; i <= size; i++) {
+
             Slot slot = slots.get(i);
-            if(slot.getSlotNo() == slotNo){
+
+           if(slot.getSlotNo() == slotNo){
                 slot.vacateCar();
+                return;
             }
         }
     }

@@ -1,7 +1,9 @@
 package org.example.input;
 
+import org.example.commandexecutor.CommandExecutor;
 import org.example.exception.InvalidCommandException;
 import org.example.factory.CommandFactory;
+import org.example.model.Command;
 import org.example.storage.Storage;
 
 import java.io.BufferedReader;
@@ -25,27 +27,24 @@ public class CommandInputScreen implements InputScreen{
 
         try {
 
-            String str = inp.readLine(); // for taking a string as an input
-            List<Command> commands = CommandFactory.getCommands(storage);
-            int size = commands.size();
+            while(true) {
 
-            for(int i=0;i<size;i++){
+                String str = inp.readLine(); // for taking a string as an input
+                Command command = new Command(str);
+                CommandFactory commandFactory = new CommandFactory(storage);
+                CommandExecutor executor = commandFactory.getCommands().get(command.getCommandName());
 
-                Command command = commands.get(i);
-
-                if(str.contains(command.getIdentifier())){
-                    try {
-                        command.execute(str);
-                    } catch (InvalidCommandException e) {
-                        throw new RuntimeException(e);
-                    }
+                if(executor.validate(command)){
+                    executor.execute(command.getParams());
                 }
 
             }
 
 
         } catch (IOException e) {
+
             throw new RuntimeException(e);
+
         }
 
     }
