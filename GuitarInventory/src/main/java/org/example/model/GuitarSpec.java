@@ -11,15 +11,21 @@ public class GuitarSpec {
     private Type type;
     private Wood backWood, topWood;
 
+    private  int numStrings;
+
+    public int getNumStrings() {
+        return numStrings;
+    }
 
     public GuitarSpec(Builder builder, String model,
-                      Type type, Wood topWood, Wood backWood){
+                      Type type, Wood topWood, Wood backWood, int numstring){
 
         this.builder = builder;
         this.model = model;
         this.type = type;
         this.topWood = topWood;
         this.backWood = backWood;
+        this.numStrings = numstring;
 
     }
 
@@ -54,6 +60,8 @@ public class GuitarSpec {
         if (guitarSpec.getTopWood() != this.getTopWood()) return false;
 
         if (guitarSpec.getBackWood() != this.getBackWood()) return false;
+
+        if (guitarSpec.getNumStrings() != this.getNumStrings()) return false;
 
         return true;
 
