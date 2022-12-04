@@ -32,29 +32,25 @@ public class Inventory {
         return null;
     }
 
-    public Guitar search(Guitar searchGuitar) {
+    public List<Guitar> search(GuitarSpec searchSpec) {
 
-        GuitarSpec searchSpec = searchGuitar.getGuitarSpec();
+        LinkedList<Guitar> searchGuitars = new LinkedList<>();
 
         for (Iterator i = guitars.iterator(); i.hasNext(); ) {
+
             Guitar guitar = (Guitar) i.next();
 
             GuitarSpec guitarSpec = guitar.getGuitarSpec();
 
-            if (guitarSpec.getBuilder() != searchSpec.getBuilder()) continue;
+            if(searchSpec.compareGuitarSpec(guitarSpec)){
 
-            if (!guitarSpec.getModel().equals(searchSpec.getModel())) continue;
+                searchGuitars.add(guitar);
 
-            if (guitarSpec.getType() != searchSpec.getType()) continue;
+            }
 
-            if (guitarSpec.getTopWood() != searchSpec.getTopWood()) continue;
-
-            if (guitarSpec.getBackWood() != searchSpec.getBackWood()) continue;
-
-
-            return guitar;
         }
-        return null;
+
+        return searchGuitars;
 
     }
 

@@ -42,4 +42,20 @@ public class GuitarSpec {
     public Wood getTopWood() {
         return topWood;
     }
+
+    public boolean compareGuitarSpec(GuitarSpec guitarSpec){
+
+        if (guitarSpec.getBuilder() != this.getBuilder()) return false;
+
+        if (!guitarSpec.getModel().equals(this.getModel())) return false;
+
+        if (guitarSpec.getType() != this.getType()) return false;
+
+        if (guitarSpec.getTopWood() != this.getTopWood()) return false;
+
+        if (guitarSpec.getBackWood() != this.getBackWood()) return false;
+
+        return true;
+
+    }
 }
