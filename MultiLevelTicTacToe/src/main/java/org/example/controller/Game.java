@@ -1,19 +1,14 @@
 package org.example.controller;
 
+import org.example.input.InputScreen;
+import org.example.input.TerminalInputScreen;
 import org.example.model.Board;
 import org.example.model.Cordinate;
 import org.example.model.Player;
 import org.example.output.OutputPrinter;
-import org.example.strategy.BoardPickingStrategy;
-import org.example.strategy.CircularPlayerPickingStrategy;
-import org.example.strategy.ExactBoardPickingStrategy;
-import org.example.strategy.PlayerPickingStartegy;
+import org.example.strategy.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
 
@@ -24,40 +19,81 @@ public class Game {
     private PlayerPickingStartegy playerPickingStartegy;
     private OutputPrinter outputPrinter;
 
+    private GameWinnerPickingStrategy winnerPickingStrategy;
 
+    private InputScreen inputScreen;
+
+    private BoardWinnerPickingStrategy boardWinnerPickingStrategy;
+
+
+
+    private int rows = 3;
+    private int columns = 3;
     public Game(){
 
-        intialiseBoard(3);
+        intialiseBoard(rows,columns);
         initialisePlayers();
         boardPickingStrategy = new ExactBoardPickingStrategy(boards);
         playerPickingStartegy = new CircularPlayerPickingStrategy(players);
         outputPrinter = new OutputPrinter();
+        winnerPickingStrategy = new GameWinnerWithMaxWin();
+        inputScreen = new TerminalInputScreen();
+
+        boardWinnerPickingStrategy = new ExactBoardWinnerStrategy(rows,columns);
 
 
     }
 
-    void run(){
+
+    public void run(){
 
 
-        BufferedReader inp = new BufferedReader (new InputStreamReader(System.in));
+        Boolean isValidMove = true;
 
-        Cordinate cordinate = new Cordinate(0,0);
+        Board currentBoard = boardPickingStrategy.getFirstBoard();
+
+        Player currentPlayer = null;
+
+        Cordinate cordinate;
 
         try {
 
             while(true) {
 
-                Player currentPlayer = playerPickingStartegy.getPlayer();
-                Board board = boardPickingStrategy.getBoard(cordinate);
+                if(isValidMove){
+
+                    currentPlayer = playerPickingStartegy.getPlayer();
+
+                }
 
                 outputPrinter.printPlayerinfo(currentPlayer);
-                outputPrinter.giveInputForBoard(board);
+                outputPrinter.giveInputForBoard(currentBoard);
 
-                String[] str = inp.readLine().split(" ");
-                cordinate = new Cordinate(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
-                if(board.validateMove(cordinate)){
+                cordinate = inputScreen.getCordinate();
 
-                    board.playMove(cordinate,currentPlayer.getCharacter());
+                if(currentBoard.validateMove(cordinate)){
+
+                    currentBoard.playMove(cordinate,currentPlayer);
+
+                    Player winner = winnerPickingStrategy.getWinner(boards,  currentPlayer);
+
+                    if(winner != null){
+
+
+                        outputPrinter.printWinnerInfo(winner);
+                        return;
+
+
+                    }
+
+                    currentBoard = boardPickingStrategy.getBoard(cordinate);
+
+                    isValidMove = true;
+
+
+                }else{
+
+                    isValidMove = false;
 
                 }
 
@@ -65,7 +101,7 @@ public class Game {
             }
 
 
-        } catch (IOException e) {
+        } catch (Exception e) {
 
             throw new RuntimeException(e);
 
@@ -80,10 +116,10 @@ public class Game {
         players.add(player2);
     }
 
-    void intialiseBoard(int size){
-        for(int i=0;i<size;i++){
-            for(int j=0;j<size;j++){
-                boards[i][j] = new Board(new Cordinate(i,j), size);
+    void intialiseBoard(int rows, int columns){
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<columns;j++){
+                boards[i][j] = new Board(new Cordinate(i,j), rows, columns, boardWinnerPickingStrategy);
             }
         }
     }

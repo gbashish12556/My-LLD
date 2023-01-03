@@ -7,5 +7,7 @@ public interface BoardPickingStrategy {
 
     Board getBoard(Cordinate cordinate);
 
+    Board getFirstBoard();
+
 
 }

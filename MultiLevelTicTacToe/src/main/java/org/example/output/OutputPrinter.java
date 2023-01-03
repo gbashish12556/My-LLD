@@ -19,6 +19,17 @@ public class OutputPrinter {
         print("Player Name : "+String.valueOf(player.getName()));
     }
 
+    public void printWinnerInfo(Player player){
+        print("Winner Is:");
+        printPlayerinfo(player);
+    }
+
+    public void invalidMove(){
+
+        System.out.println("Invalid Move");
+
+    }
+
     void print(String str){
         System.out.println(str);
     }
