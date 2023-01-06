@@ -3,8 +3,9 @@ package org.example.strategy;
 import org.example.model.Board;
 import org.example.model.Cell;
 import org.example.model.Player;
+import org.example.strategy.interfaces.BoardWinnerPickingStrategy;
 
-public class ExactBoardWinnerStrategy implements BoardWinnerPickingStrategy{
+public class ExactBoardWinnerStrategy implements BoardWinnerPickingStrategy {
 
 
     private int rows;
@@ -21,7 +22,7 @@ public class ExactBoardWinnerStrategy implements BoardWinnerPickingStrategy{
     public Boolean checkIfWinner(Board board, Player player) {
 
         return horizontalRowsFilled(board, player.getCharacter())
-                || verticalColumnsFilled(board, player.getCharacter())|| diagonalsFilled(board, player.getCharacter());
+                || verticalColumnsFilled(board, player.getCharacter()) || diagonalsFilled(board, player.getCharacter());
 
     }
 
@@ -29,7 +30,7 @@ public class ExactBoardWinnerStrategy implements BoardWinnerPickingStrategy{
 
         Cell[][] cells = board.getCells();
         Boolean filled = false;
-        for(int i=0;i<rows; i++){
+        for(int i=0; i < rows; i++){
             filled = filled || horizontalRowFilled(cells[i], character);
         }
 
@@ -39,7 +40,7 @@ public class ExactBoardWinnerStrategy implements BoardWinnerPickingStrategy{
     Boolean verticalColumnsFilled(Board board,   char character){
 
         Cell[][] cells = board.getCells();
-        Boolean filled = true;
+        Boolean filled = false;
 
         for(int i=0;i<columns;i++){
 
@@ -67,10 +68,15 @@ public class ExactBoardWinnerStrategy implements BoardWinnerPickingStrategy{
     Boolean verticalColumnFilled(int columnNo, Cell[][] cells,   char character){
 
         Boolean filled = true;
+
         for(int i=0;i<rows;i++){
+
             filled = filled && (cells[i][columnNo].getCurrentChar() == character);
+
         }
+
         return filled;
+
     }
 
 

@@ -2,14 +2,14 @@ package org.example.strategy;
 
 import org.example.model.Board;
 import org.example.model.Player;
-
-import java.util.List;
+import org.example.strategy.interfaces.GameWinnerPickingStrategy;
 
 public class GameWinnerWithMaxWin implements GameWinnerPickingStrategy {
     @Override
     public Player getWinner(Board[][] boards, Player player)
     {
         int winCount = 0;
+
         for(int i=0;i<boards.length; i++){
 
             for(int j=0;j<boards[0].length;j++){

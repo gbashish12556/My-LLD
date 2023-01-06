@@ -1,9 +1,6 @@
 package org.example.model;
 
-import org.example.strategy.BoardWinnerPickingStrategy;
-import org.example.strategy.ExactBoardWinnerStrategy;
-
-import static java.sql.Types.NULL;
+import org.example.strategy.interfaces.BoardWinnerPickingStrategy;
 
 public class Board {
 
@@ -38,15 +35,23 @@ public class Board {
     }
 
     void intialiseCells(){
+
         for(int i=0;i<rows;i++){
+
             for(int j=0;j<columns;j++) {
+
                 cells[i][j] = new Cell(new Cordinate(i,j));
+
             }
+
         }
+
     }
 
     public void playMove(Cordinate cordinate, Player player){
+
         cells[cordinate.getxCord()][cordinate.getyCord()].setCurrentChar(player.getCharacter());
+
         if(boardWinnerPickingStrategy.checkIfWinner(this, player)){
             this.winner = player;
         }
@@ -54,15 +59,20 @@ public class Board {
     }
 
     public boolean validateMove(Cordinate cordinate){
+
         if(winner != null){
             return false;
         }
+
         if(cordinate.getxCord() < 0 || cordinate.getxCord() > columns - 1 || cordinate.getyCord() < 0 || cordinate.getyCord() > rows -1){
             return false;
         }
+
         if(cells[cordinate.getxCord()][cordinate.getyCord()].getCurrentChar() == 'E'){
             return true;
         }
+
         return false;
+
     }
 }

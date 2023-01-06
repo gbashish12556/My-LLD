@@ -2,8 +2,9 @@ package org.example.strategy;
 
 import org.example.model.Board;
 import org.example.model.Cordinate;
+import org.example.strategy.interfaces.BoardPickingStrategy;
 
-public class ExactBoardPickingStrategy implements BoardPickingStrategy{
+public class ExactBoardPickingStrategy implements BoardPickingStrategy {
 
     private Board[][] boards;
 
@@ -14,7 +15,12 @@ public class ExactBoardPickingStrategy implements BoardPickingStrategy{
     @Override
     public Board getBoard(Cordinate cordinate) {
 
+        if(cordinate == null){
+            return boards[0][0];
+        }
+
         Board board =  boards[cordinate.getxCord()][cordinate.getyCord()];
+
 
         if(board.getWinner() == null){
             return  board;

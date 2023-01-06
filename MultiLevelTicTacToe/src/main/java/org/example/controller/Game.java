@@ -7,6 +7,10 @@ import org.example.model.Cordinate;
 import org.example.model.Player;
 import org.example.output.OutputPrinter;
 import org.example.strategy.*;
+import org.example.strategy.interfaces.BoardPickingStrategy;
+import org.example.strategy.interfaces.BoardWinnerPickingStrategy;
+import org.example.strategy.interfaces.GameWinnerPickingStrategy;
+import org.example.strategy.interfaces.PlayerPickingStartegy;
 
 import java.util.ArrayList;
 
@@ -31,15 +35,15 @@ public class Game {
     private int columns = 3;
     public Game(){
 
-        intialiseBoard(rows,columns);
-        initialisePlayers();
         boardPickingStrategy = new ExactBoardPickingStrategy(boards);
         playerPickingStartegy = new CircularPlayerPickingStrategy(players);
         outputPrinter = new OutputPrinter();
         winnerPickingStrategy = new GameWinnerWithMaxWin();
         inputScreen = new TerminalInputScreen();
-
         boardWinnerPickingStrategy = new ExactBoardWinnerStrategy(rows,columns);
+
+        intialiseBoard(rows,columns);
+        initialisePlayers();
 
 
     }
@@ -50,11 +54,11 @@ public class Game {
 
         Boolean isValidMove = true;
 
-        Board currentBoard = boardPickingStrategy.getFirstBoard();
+        Board currentBoard = null;
 
         Player currentPlayer = null;
 
-        Cordinate cordinate;
+        Cordinate cordinate = null;
 
         try {
 
@@ -63,6 +67,7 @@ public class Game {
                 if(isValidMove){
 
                     currentPlayer = playerPickingStartegy.getPlayer();
+                    currentBoard = boardPickingStrategy.getBoard(cordinate);
 
                 }
 
@@ -71,6 +76,11 @@ public class Game {
 
                 cordinate = inputScreen.getCordinate();
 
+                if(currentBoard.getWinner() != null){
+
+                    System.out.println("CurrentBoardWinner: "+currentBoard.getWinner().getName());
+
+                }
                 if(currentBoard.validateMove(cordinate)){
 
                     currentBoard.playMove(cordinate,currentPlayer);
@@ -85,8 +95,6 @@ public class Game {
 
 
                     }
-
-                    currentBoard = boardPickingStrategy.getBoard(cordinate);
 
                     isValidMove = true;
 
