@@ -81,6 +81,7 @@ public class Game {
                     System.out.println("CurrentBoardWinner: "+currentBoard.getWinner().getName());
 
                 }
+
                 if(currentBoard.validateMove(cordinate)){
 
                     currentBoard.playMove(cordinate,currentPlayer);
