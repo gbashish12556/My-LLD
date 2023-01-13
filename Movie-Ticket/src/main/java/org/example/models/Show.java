@@ -3,16 +3,22 @@ package org.example.models;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Date;
+
 @Getter
 @AllArgsConstructor
 public class Show {
-    private Movie movie;
-    private String startTime;
 
-    private Integer durationInMinutes;
+    private String id;
+    private Movie movie;
 
 
     private Screen screen;
+
+    private Date startTime;
+
+    private Long durationInMinutes;
+
 
 
 }

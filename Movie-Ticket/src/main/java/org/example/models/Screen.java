@@ -9,29 +9,20 @@ import org.example.exception.MovieException;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
 public class Screen {
 
-    private Integer screenNo;
+    private String id;
 
     private SeatData seatData;
 
-    public List<Seat> getAvailableSeats(){
-
-        return seatData.getAvailableSeats();
-
+    public Screen(String id) {
+        this.id = id;
+        seatData = new SeatData();
     }
 
-    public void temporarilyBlockSeat(List<Integer> seatNos) throws MovieException {
+    public List<Seat> getAllSeats(){
 
-        seatData.temporarilyBlockSeat(seatNos);
-
-    }
-
-    public void permanantlyBlockSeats(List<Integer> seatNos) throws MovieException {
-
-        seatData.temporarilyBlockSeat(seatNos);
+        return seatData.getAllSeats();
 
     }
 }

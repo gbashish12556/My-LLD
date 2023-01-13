@@ -9,11 +9,20 @@ import org.example.enums.SeatType;
 @Getter
 @AllArgsConstructor
 public class Seat {
-    private Integer seatNo;
+
+
+    private String id;
     private SeatType seatType;
 
+    private Integer price;
+
     @Setter
-    private SeatAvailabilityStatus seatAvailabilityStatus;
+    private SeatAvailabilityStatus seatAvailabilityStatus = SeatAvailabilityStatus.AVAILABLE;
 
 
+    public Seat(String id, SeatType seatType, Integer price) {
+        this.id = id;
+        this.seatType = seatType;
+        this.price = price;
+    }
 }

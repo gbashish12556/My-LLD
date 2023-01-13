@@ -1,6 +1,11 @@
 package org.example.enums;
 
-public enum SeatType {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-    NORMAL, PREMIUM
+import java.util.HashMap;
+
+public enum SeatType {
+    NORMAL, MEDIUM, GOLD
+
 }
