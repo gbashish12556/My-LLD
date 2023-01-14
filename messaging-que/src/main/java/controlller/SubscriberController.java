@@ -1,8 +1,9 @@
 package controlller;
 
 import lombok.AllArgsConstructor;
-import models.Subscriber;
+import models.SleepingSubscriber;
 import models.Topic;
+import service.SubscriberWorker;
 import service.TopicService;
 
 import java.util.List;
@@ -13,15 +14,15 @@ public class SubscriberController {
     private TopicService topicService;
 
 
-    public void subscribe(String id, Subscriber subscriber){
+    public void subscribe(String topicId, SubscriberWorker subscriberWorker){
 
-        topicService.subscribe(id,subscriber);
+        topicService.subscribe(topicId, subscriberWorker);
 
     }
 
-    public void unsubscribe(String id){
+    public void unsubscribe(String topicid, String subscriberId){
 
-//        to
+            topicService.unsubscribe(topicid, subscriberId);
 
     }
 

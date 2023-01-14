@@ -4,11 +4,15 @@ import controlller.PublisherController;
 import controlller.SubscriberController;
 import enums.MessageType;
 import models.Message;
-import models.Subscriber;
+import models.SleepingSubscriber;
 import models.Topic;
+import models.TopicSubscriber;
+import service.SubscriberWorker;
 import service.TopicService;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,18 +28,21 @@ public class Main {
 
 
         List<Topic> topics = subscriberController.getAllTopics();
-
-        Subscriber subscriber1 = new Subscriber("Subs1");
-        Subscriber subscriber2 = new Subscriber("Subs2");
-
-
         Topic topic = topics.get(0);
-        topic.subscribe(subscriber1);
-        topic.subscribe(subscriber2);
+
+        TopicSubscriber topicSubscriber = new TopicSubscriber(new AtomicInteger(5), new SleepingSubscriber("name"));
+        SubscriberWorker subscriberWorker1 = new SubscriberWorker(UUID.randomUUID().toString(), topic, topicSubscriber);
+
+        topic.subscribe(subscriberWorker1);
 
         publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Legend"));
+        publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Batsman"));
+        publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Bowler"));
+        publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Player"));
+        publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Winner"));
+        publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Nervous"));
+        publisherController.publishMessage(topic.getId(), new Message(MessageType.TEXT, "Sachin is Husband"));
 
-//        subscriberController.subscribe();
 
 
     }

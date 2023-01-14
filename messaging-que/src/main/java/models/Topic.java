@@ -1,10 +1,10 @@
 package models;
 
 import lombok.Getter;
+import service.SubscriberWorker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Getter
 public class Topic {
@@ -12,7 +12,7 @@ public class Topic {
     private String name;
     private ArrayList<Message> messages = new ArrayList<>();
 
-    private HashMap<String, Subscriber> subscribers= new HashMap<>();
+    private HashMap<String, SubscriberWorker> subscribers= new HashMap<>();
 
     public Topic(String id, String name) {
         this.id = id;
@@ -20,9 +20,13 @@ public class Topic {
     }
 
 
-    public void subscribe(Subscriber subscriber){
+    public void subscribe(SubscriberWorker subscriberWorker){
 
-        subscribers.put(subscriber.getId(), subscriber);
+
+        subscribers.put(subscriberWorker.getId(), subscriberWorker);
+
+        (new Thread(subscriberWorker)).start();
+
 
     }
 
@@ -34,13 +38,10 @@ public class Topic {
 
     public void publishMessage(Message message){
 
-        messages.add(message);
+        synchronized (this) {
 
-        ArrayList<Subscriber> subs = new ArrayList<>(subscribers.values());
-        int size = subscribers.size();
-        for(int i=0 ; i<size; i++){
-
-            subs.get(i).messagePublished(message);
+            messages.add(message);
+            this.notifyAll();
 
         }
 

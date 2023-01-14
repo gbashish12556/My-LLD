@@ -1,6 +1,7 @@
 package service;
 
 import models.Message;
+import models.SleepingSubscriber;
 import models.Subscriber;
 import models.Topic;
 
@@ -28,9 +29,9 @@ public class TopicService {
 
     }
 
-    public void subscribe(String id, Subscriber subscriber){
+    public void subscribe(String topicId, SubscriberWorker subscriberWorker){
 
-        topicMapping.get(id).subscribe(subscriber);
+        topicMapping.get(topicId).subscribe(subscriberWorker);
 
     }
 
@@ -43,7 +44,14 @@ public class TopicService {
 
     public void publishMessage(String id, Message message){
 
-        topicMapping.get(id).publishMessage(message);
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                topicMapping.get(id).publishMessage(message);
+
+            }
+        })).start();
 
     }
 
