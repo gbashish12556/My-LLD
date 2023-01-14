@@ -16,6 +16,8 @@ public class SeatLock {
 
     private Long expiryDuration;
 
+    private User user;
+
 
     public boolean isExpired(){
 

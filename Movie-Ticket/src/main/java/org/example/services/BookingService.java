@@ -7,13 +7,14 @@ import org.example.exception.MovieException;
 import org.example.models.Booking;
 import org.example.models.Seat;
 import org.example.models.Show;
+import org.example.models.User;
 import org.example.provider.SeatLockProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Handler;
+
 
 @AllArgsConstructor
 public class BookingService {
@@ -25,7 +26,7 @@ public class BookingService {
     private SeatLockProvider seatLockProvider;
 
 
-    public void createBooking(List<Seat> seats, Show show) throws MovieException {
+    public void createBooking(List<Seat> seats, Show show, User user) throws MovieException {
 
         if(anySeatAlreadyBooked(show, seats)){
 
@@ -34,7 +35,7 @@ public class BookingService {
         }
 
         String id = UUID.randomUUID().toString();
-        Booking booking = new Booking(id, show, seats, BookingStatus.CREATED, 2000);
+        Booking booking = new Booking(id, show, seats, BookingStatus.CREATED, user,2000);
 
         bookings.get(show).put(id, booking);
 
@@ -47,6 +48,14 @@ public class BookingService {
                     if(booking.getBookingStatus() == BookingStatus.CREATED){
 
                         bookings.get(show).remove(id);
+
+                        int size = seats.size();
+
+                        for(int i=0;i<size;i++) {
+
+                            seatLockProvider.unLockSeat(show, seats.get(i), user);
+
+                        }
 
 
                     }
@@ -66,7 +75,11 @@ public class BookingService {
 
             Booking booking = bookings.get(show).remove(bookingId);
 
-            booking.setBookingStatus(BookingStatus.BOOKED);
+            if(seatLockProvider.validateLock(show, booking.getSeats(), booking.getUser())){
+
+                booking.setBookingStatus(BookingStatus.BOOKED);
+
+            }
 
         }
 

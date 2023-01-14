@@ -21,6 +21,9 @@ public class Booking {
     @Setter
     private BookingStatus bookingStatus = BookingStatus.CREATED;
 
+
+    private User user;
+
     private Integer amount;
 
 }

@@ -18,5 +18,7 @@ public interface SeatLockProvider {
 
     Long getExpiryDuration();
 
+    boolean validateLock(Show show, List<Seat> seats, User user);
+
 
 }

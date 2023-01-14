@@ -21,7 +21,7 @@ public class InMemorySeatLock implements SeatLockProvider{
             seatLocks.put(show, new HashMap());
         }
 
-        SeatLock seatLock = new SeatLock(seat, show, new Date(), exipryDurations);
+        SeatLock seatLock = new SeatLock(seat, show, new Date(), exipryDurations, user);
 
         seatLocks.get(show).put(seat, seatLock);
 
@@ -58,5 +58,15 @@ public class InMemorySeatLock implements SeatLockProvider{
     @Override
     public Long getExpiryDuration() {
         return exipryDurations;
+    }
+
+    @Override
+    public boolean validateLock(Show show, List<Seat> seats, User user) {
+        HashMap<Seat , SeatLock> map = seatLocks.get(show);
+        int size = seats.size();
+        for(int i=0; i<size; i++){
+            return  isSeatLocked(show, seats.get(i), user);
+        }
+        return false;
     }
 }

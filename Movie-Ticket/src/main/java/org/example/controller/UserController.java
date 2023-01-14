@@ -39,9 +39,9 @@ public class UserController {
         return showService.getAvailableShows();
     }
 
-    public void createBooking(List<Seat> seats, Show show) throws MovieException {
+    public void createBooking(List<Seat> seats, Show show, User user) throws MovieException {
 
-        bookingService.createBooking(seats,show);
+        bookingService.createBooking(seats,show, user);
 
     }
 
