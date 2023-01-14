@@ -36,10 +36,11 @@ public class Topic {
 
         messages.add(message);
 
+        ArrayList<Subscriber> subs = new ArrayList<>(subscribers.values());
         int size = subscribers.size();
-        for(int i=0;i<size; i++){
+        for(int i=0 ; i<size; i++){
 
-            subscribers.get(i).messagePublished(message);
+            subs.get(i).messagePublished(message);
 
         }
 

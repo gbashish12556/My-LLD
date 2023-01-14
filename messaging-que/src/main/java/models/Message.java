@@ -13,4 +13,8 @@ public class Message {
 
     private String data;
 
+    public Message(MessageType messageType, String data) {
+        this.messageType = messageType;
+        this.data = data;
+    }
 }
