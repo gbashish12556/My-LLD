@@ -13,6 +13,7 @@ public class HashMapImpl<K,V> {
 
    public HashMapImpl(int capacity){
        this.capacity = capacity;
+       table  = new Entry[capacity];
    }
 
    static class Entry<K,V>{
@@ -40,7 +41,7 @@ public class HashMapImpl<K,V> {
            return;
        }
        int hashCode  = getHashCode(key);
-
+        System.out.println("hashCode : "+hashCode);
        Entry<K,V> current = table[hashCode];
        Entry<K,V> previous = null;
        Entry<K,V> newEntry = new Entry(key,value);
@@ -81,7 +82,9 @@ public class HashMapImpl<K,V> {
        Entry<K,V> current = table[hashCode];
 
        if(current == null){
+
            return null;
+
        }else{
 
            while (current != null){
